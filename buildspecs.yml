@@ -9,7 +9,7 @@ phases:
       - zip -r nodeArtifact.zip index.js node_modules
   post_build:
     commands:
-      - aws s3 cp nodeArtifact.zip s3://codepipeline-ap-south-1-600127048539/lambda.zip
+      - aws s3 cp nodeArtifact.zip s3://codepipeline-ap-south-1-600127048539/nodeArtifact.zip
 artifacts:
   files:
     - nodeArtifact.zip
