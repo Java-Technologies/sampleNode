@@ -1,18 +1,10 @@
 version: 0.2
+
 phases:
-  install:
-    runtime-versions:
-      nodejs: 18
   build:
     commands:
-      - echo "Installing dependencies..."
-      - npm install
-      - echo "Zipping files..."
-      - zip -r lambda.zip index.js node_modules
-  post_build:
-    commands:
-      - echo "Build complete. Uploading to S3..."
-      #- aws s3 cp lambda.zip s3://my-lambda-artifacts/lambda.zip
-artifacts:
-  files:
-    - lambda.zip
+      - echo "Fetching latest Lambda package from S3..."
+      - aws s3 cp s3://my-lambda-artifacts/lambda.zip .
+      - echo "Deploying to AWS Lambda..."
+      - aws lambda update-function-code --function-name MyLambdaFunction --s3-bucket my-lambda-artifacts --s3-key lambda.zip
+      - echo "Deployment successful!"
