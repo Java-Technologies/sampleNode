@@ -1,10 +1,15 @@
 version: 0.2
-
 phases:
+  install:
+    runtime-versions:
+      nodejs: 18
   build:
     commands:
-      - echo "Fetching latest Lambda package from S3..."
-      - aws s3 cp s3://codepipeline-ap-south-1-600127048539/lambda.zip .
-      - echo "Deploying to AWS Lambda..."
-      - aws lambda update-function-code --function-name MyLambdaFunction --s3-bucket my-lambda-artifacts --s3-key lambda.zip
-      - echo "Deployment successful!"
+      - npm install
+      - zip -r lambda.zip index.js node_modules
+  post_build:
+    commands:
+      - aws s3 cp lambda.zip s3://codepipeline-ap-south-1-600127048539/lambda.zip
+artifacts:
+  files:
+    - lambda.zip
