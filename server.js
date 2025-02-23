@@ -1,4 +1,5 @@
 const express = require("express");
+const ServerlessHttp = require("serverless-http");
 
 const app = express();
 const port = 3000;
@@ -9,3 +10,4 @@ app.get("/hello", (req, res) => {
 });
 
 
+module.exports.handler = ServerlessHttp(app);
